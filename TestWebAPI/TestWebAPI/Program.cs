@@ -1,6 +1,14 @@
+using TestWebAPI.DL.Interfaces;
+using TestWebAPI.DL.Repositories.AuthorRepository;
+using TestWebAPI.DL.Repositories.BookRepository;
+using TestWebAPI.DL.Repositories.MemoryRepository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<IUserRepository, PersonInMemoryRepository>();
+builder.Services.AddSingleton<IAuthorRepository, AuthorInMemoryRepository>();
+builder.Services.AddSingleton<IBookRepository, BookInMemoryRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
