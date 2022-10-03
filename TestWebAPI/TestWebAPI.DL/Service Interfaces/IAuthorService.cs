@@ -1,5 +1,7 @@
-﻿using TestWebAPIModel.Request;
+﻿using TestWebAPI.Model.Request;
+using TestWebAPIModel.Request;
 using TestWebAPIModel.Responses;
+using TestWebAPIModels.Models;
 
 namespace BookStore.BL.Interfaces
 {
@@ -9,15 +11,16 @@ namespace BookStore.BL.Interfaces
 
         AddAuthorResponse GetAuthroById(int id);
 
-        AddAuthorResponse AddAutor(AddAuthorRequest user);
+        AddAuthorResponse AddAutor(AddMultipleAuthosrRequest user);
 
 
-        AddAuthorResponse? UpdateAutor(AddAuthorRequest user);
+        AddAuthorResponse? UpdateAutor(AddMultipleAuthosrRequest user);
 
 
-        AddAuthorResponse? DeletAutor(int userId);
+        AddAuthorResponse? DeletAutor(AddMultipleAuthosrRequest author);
 
         AddAuthorResponse? GetAuthorByName(string name);
+        public bool AddMultipleAuthors(IEnumerable<Author> authorsCollection);
     }
 
 }

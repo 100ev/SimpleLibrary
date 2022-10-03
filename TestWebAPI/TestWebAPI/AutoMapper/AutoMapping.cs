@@ -8,7 +8,7 @@ namespace TestWebAPI.AutoMapper
     {
         public AutoMapping() 
         {
-            CreateMap<AddAuthorRequest, Author>();
+            CreateMap<AddMultipleAuthosrRequest, Author>();
         }
     }
 }

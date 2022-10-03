@@ -18,5 +18,7 @@ namespace TestWebAPI.DL.Interfaces
 
         Author? GetAuthorByName(string name);
 
+        bool AddMultipleAuthors(IEnumerable<Author> authorCollection);
+
     }
 }

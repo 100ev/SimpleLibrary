@@ -8,6 +8,7 @@ namespace TestWebAPI.DL.Repositories.AuthorRepository
     public class AuthorInMemoryRepository : IAuthorRepository
     {
         private readonly ILogger<AuthorInMemoryRepository> _authorRepositoryLogger;
+
         private static List<Author> _author = new List<Author>()
         {
             new Author()
@@ -95,6 +96,21 @@ namespace TestWebAPI.DL.Repositories.AuthorRepository
         public void AddAutor(Author autor)
         {
             _author.Add(autor);
+        }
+
+        public bool AddMultipleAuthors(IEnumerable<Author> authorCollection)
+        {
+            try
+            {
+                AuthorInMemoryRepository._author.AddRange(authorCollection);
+                return true; 
+            }
+            catch (Exception)
+            {
+                _authorRepositoryLogger.LogWarning("Unable to add multiple authors ");
+
+                return false;
+            };
         }
     }
 

@@ -1,7 +1,10 @@
 ﻿using System.Net;
+using System.Net.NetworkInformation;
+using AutoMapper;
 using BookStore.BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using TestWebAPIModel.Request;
+using TestWebAPIModels.Models;
 
 namespace TestWebAPI.Controllers
 {
@@ -11,11 +14,13 @@ namespace TestWebAPI.Controllers
     {
         private readonly IAuthorService _authorService;
         private readonly ILogger<AuthorController> _logger;
+        private readonly IMapper _mapper;
 
-        public AuthorController(IAuthorService authorRepository, ILogger<AuthorController> logger)
+        public AuthorController(IAuthorService authorRepository, ILogger<AuthorController> logger, IMapper mapper)
         {
             _authorService = authorRepository;
             _logger = logger;
+        _mapper = mapper;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -26,10 +31,23 @@ namespace TestWebAPI.Controllers
             return Ok(_authorService.GetAllAuthors());
 
         }
+
+        public IActionResult AddAuthorrange([FromBody] 
+        AddMultipleAuthosrRequest addMultipleAuthors)
+        {
+            if (addMultipleAuthors == null && !addMultipleAuthors.AuthorRequest.Any())
+                return BadRequest(addMultipleAuthors);
+            var authroCollection = _mapper.Map<IEnumerable<Author>>(addMultipleAuthors);
+
+            var result = _authorService.AddMultipleAuthors(authroCollection);
+            if(!result) return BadRequest(result);
+
+            return Ok(result);
+        }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("AddAuthor")]
 
-        public IActionResult AddAuthor([FromBody] AddAuthorRequest authorRequest)
+        public IActionResult AddAuthor([FromBody] AddMultipleAuthosrRequest authorRequest)
         {
             //if (authorRequest == null) return BadRequest(authorRequest);
 

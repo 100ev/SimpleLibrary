@@ -1,7 +1,9 @@
 ﻿using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using BookStore.BL.Interfaces;
 using Microsoft.Extensions.Logging;
+using TestWebAPI.Model.Request;
 using TestWebAPIModel.Request;
 using TestWebAPIModel.Responses;
 using TestWebAPIModels.Models;
@@ -21,7 +23,7 @@ namespace BookStore.BL.Services
             _logger = loger;
         }
 
-        public AddAuthorResponse AddAutor(AddAuthorRequest autorRequest)
+        public AddAuthorResponse AddAutor(AddMultipleAuthosrRequest autorRequest)
         {
             try
             {                
@@ -52,7 +54,7 @@ namespace BookStore.BL.Services
             
         }
 
-        public AddAuthorResponse? DeletAutor(int userId)
+        public AddAuthorResponse? DeletAutor(AddMultipleAuthosrRequest author)
         {
             throw new NotImplementedException();
         }
@@ -72,7 +74,7 @@ namespace BookStore.BL.Services
             throw new NotImplementedException();
         }
 
-        public AddAuthorResponse? UpdateAutor(AddAuthorRequest autorRequest)
+        public AddAuthorResponse? UpdateAutor(AddMultipleAuthosrRequest autorRequest)
         {
             var auth = _authorService.GetAuthorByName(autorRequest.Name);
 
@@ -98,5 +100,17 @@ namespace BookStore.BL.Services
         {
             throw new NotImplementedException();
         }
+
+        public bool AddMultipleAuthors(IEnumerable<Author> authorsCollection)
+        {
+            return _authorService.AddMultipleAuthors(authorsCollection);
+        }
+
+        public AddAuthorResponse? DeletAutor(AddAuthorRequest author)
+        {
+            throw new NotImplementedException();
+        }
+
+       
     }
 }
