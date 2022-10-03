@@ -78,10 +78,7 @@ namespace TestWebAPI.DL.Repositories.AuthorRepository
             return user;
         }
 
-        IEnumerable<Author> IAuthorRepository.GetAllUsers()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
 }
