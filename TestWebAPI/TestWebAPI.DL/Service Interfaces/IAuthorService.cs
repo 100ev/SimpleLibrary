@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TestWebAPIModel.Request;
+﻿using TestWebAPIModel.Request;
 using TestWebAPIModel.Responses;
-using TestWebAPIModels.Models;
 
 namespace BookStore.BL.Interfaces
 {

@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using TestWebAPI.DL.Interfaces;
-using TestWebAPI.DL.Repositories.MemoryRepository;
-using TestWebAPIModels;
 using TestWebAPIModels.Models;
 
 namespace TestWebAPI.Controllers

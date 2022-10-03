@@ -1,11 +1,7 @@
 ﻿using System.Net;
 using BookStore.BL.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TestWebAPI.DL.Interfaces;
-using TestWebAPI.DL.Repositories.AuthorRepository;
 using TestWebAPIModel.Request;
-using TestWebAPIModels.Models;
 
 namespace TestWebAPI.Controllers
 {

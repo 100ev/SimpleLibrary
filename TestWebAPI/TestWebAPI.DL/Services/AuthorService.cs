@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using AutoMapper;
 using BookStore.BL.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TestWebAPIModel.Request;
 using TestWebAPIModel.Responses;

@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using AutoMapper;
-using BookStore.BL.Interfaces;
-using BookStore.BL.Services;
 using Microsoft.Extensions.Logging;
 using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.Model.Request;
 using TestWebAPI.Model.Responses;
-using TestWebAPIModel.Responses;
 using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Services

@@ -1,5 +1,4 @@
 ﻿using TestWebAPI.DL.Interfaces;
-using TestWebAPIModels;
 using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Repositories.MemoryRepository

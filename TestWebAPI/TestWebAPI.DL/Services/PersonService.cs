@@ -1,5 +1,4 @@
 ﻿using BookStore.BL.Interfaces;
-using TestWebAPI.DL.Interfaces;
 using TestWebAPIModels.Models;
 
 namespace BookStore.BL.Services

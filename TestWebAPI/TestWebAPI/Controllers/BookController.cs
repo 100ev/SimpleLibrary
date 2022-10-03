@@ -1,7 +1,5 @@
-﻿using BookStore.BL.Interfaces;
-using System.Net;
+﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using TestWebAPIModel.Request;
 using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.Model.Request;
 

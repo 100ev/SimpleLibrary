@@ -1,5 +1,4 @@
-﻿using BookStore.BL.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TestWebAPI.DL.Interfaces;
 using TestWebAPI.DL.Repositories.AuthorRepository;
 using TestWebAPI.DL.Repositories.BookRepository;
