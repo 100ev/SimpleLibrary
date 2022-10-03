@@ -13,11 +13,13 @@ namespace TestWebAPI.Controllers
         private readonly IUserRepository _userInMemoryRepository;
         private readonly ILogger<UserController> _logger;
         private readonly IBookRepository _bookRepository;
-        public UserController(ILogger<UserController> loger, IUserRepository userInMemoryRepository, IBookRepository bookRepository)
+        private readonly IAuthorRepository _authorRepository;
+        public UserController(ILogger<UserController> loger, IUserRepository userInMemoryRepository, IBookRepository bookRepository, IAuthorRepository authorRepository)
         {
             _logger = loger;
             _userInMemoryRepository = userInMemoryRepository;
             _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
         }       
 
         [HttpGet("GetID")]
@@ -25,6 +27,19 @@ namespace TestWebAPI.Controllers
         {
             return _userInMemoryRepository.GetAllUsers();
 
-        }       
-     }
+        }
+
+        [HttpGet("GetBooks")]
+        public IEnumerable<Book> GetBooks()
+        {
+            return _bookRepository.GetAlBooks();
+
+        }
+        [HttpGet("GetAuthors")]
+        public IEnumerable<Author> GetAuthors()
+        {
+            return _authorRepository.GetAllAuthors();
+
+        }
+    }
 }

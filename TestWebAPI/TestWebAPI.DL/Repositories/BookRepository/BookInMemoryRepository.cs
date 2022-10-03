@@ -30,6 +30,10 @@ namespace TestWebAPI.DL.Repositories.BookRepository
         public BookInMemoryRepository()
         {
         }
+        public IEnumerable<Book> GetAlBooks()
+        {
+            return _books;
+        }
 
         public void AddBook(Book book)
         {

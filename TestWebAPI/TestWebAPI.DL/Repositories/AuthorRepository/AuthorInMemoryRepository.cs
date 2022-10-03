@@ -29,7 +29,10 @@ namespace TestWebAPI.DL.Repositories.AuthorRepository
             }
 
         };
-
+       public IEnumerable<Author> GetAllAuthors()
+        {
+            return _users;
+        }
 
         public AuthorInMemoryRepository()
         {

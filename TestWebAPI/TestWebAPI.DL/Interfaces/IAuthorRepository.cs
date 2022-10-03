@@ -4,7 +4,7 @@ namespace TestWebAPI.DL.Interfaces
 {
     public interface IAuthorRepository
     {
-        IEnumerable<Author> GetAllUsers();
+        IEnumerable<Author> GetAllAuthors();
 
         Author GetById(int id);
 
