@@ -14,8 +14,6 @@ namespace TestWebAPIModels.Models
         public int Age { get; init; }
         public DateTime DateOfBirth { get; init; }
 
-         public string NickName { get; init; }
-
-
+        public string NickName { get; init; }
     }
 }

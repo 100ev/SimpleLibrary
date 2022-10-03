@@ -26,7 +26,6 @@ namespace TestWebAPI.Controllers
         public IEnumerable<Person> GetId()
         {
             return _userInMemoryRepository.GetAllUsers();
-
         }
 
         [HttpGet("GetBooks")]

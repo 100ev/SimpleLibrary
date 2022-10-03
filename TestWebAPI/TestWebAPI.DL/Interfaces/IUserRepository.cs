@@ -19,8 +19,6 @@ namespace TestWebAPI.DL.Interfaces
 
          Person? UpdateUser(Person user);
 
-
-         Book? DeletUser(int userId);
        
     }
 }

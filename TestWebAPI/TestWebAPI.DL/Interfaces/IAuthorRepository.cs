@@ -8,12 +8,15 @@ namespace TestWebAPI.DL.Interfaces
 
         Author GetById(int id);
 
-        Author AddUsers(Author user);
+        void AddAutor(Author user);
 
 
         Author? UpdateUser(Author user);
 
 
         Author? DeletUser(int userId);
+
+        Author? GetAuthorByName(string name);
+
     }
 }

@@ -1,14 +1,24 @@
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using TestWebAPI.DL.Interfaces;
 using TestWebAPI.DL.Repositories.AuthorRepository;
 using TestWebAPI.DL.Repositories.BookRepository;
 using TestWebAPI.DL.Repositories.MemoryRepository;
 
+var logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+    .CreateLogger();
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddSerilog(logger);
 // Add services to the container.
 builder.Services.AddSingleton<IUserRepository, PersonInMemoryRepository>();
 builder.Services.AddSingleton<IAuthorRepository, AuthorInMemoryRepository>();
 builder.Services.AddSingleton<IBookRepository, BookInMemoryRepository>();
+builder.Services.AddAutoMapper(typeof(Program));
+
+//builder.Services.RegisterRepositories().RegisterServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-rc.1.22426.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestWebAPI.DL\TestWebAPI.DL.csproj" />
+  </ItemGroup>
+
 </Project>

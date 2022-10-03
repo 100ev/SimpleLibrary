@@ -70,10 +70,5 @@ namespace TestWebAPI.DL.Repositories.MemoryRepository
             _users.Remove(user);
             return user;
         }
-
-        Book? IUserRepository.DeletUser(int userId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
