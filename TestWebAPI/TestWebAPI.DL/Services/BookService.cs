@@ -15,6 +15,7 @@ namespace TestWebAPI.DL.Services
         private readonly IMapper _mapper;
         private readonly ILogger<BookService> _bookLoger;
 
+
         public BookService(IBookService bookService, IMapper mapper, ILogger<BookService> bookLoger)
         {
             _bookService = bookService;
@@ -54,7 +55,7 @@ namespace TestWebAPI.DL.Services
 
         public AddBookResponse AddBook(AddBookRequest book)
         {
-            throw new NotImplementedException();
+            
         }
 
         public AddBookResponse? DeletBook(AddBookRequest userId)
