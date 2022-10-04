@@ -1,20 +1,22 @@
-﻿using TestWebAPIModels.Models;
+﻿using TestWebAPI.Model.Request;
+using TestWebAPIModel.Responses;
+using TestWebAPIModels.Models;
 
 namespace BookStore.BL.Interfaces
 {
     public interface IPersonService
     {
        
-        IEnumerable<Person> GetAllUsers();
+        IEnumerable<AddAuthorResponse> GetAllUsers();
 
-        Person GetById(int id);
+        AddAuthorResponse GetById(int id);
 
-        void AddUsers(Person user);
-
-
-        Person? UpdateUser(Person user);
+        AddAuthorResponse AddUsers(AddAuthorResponse user);
 
 
-        Person? DeletUser(int userId);
+        AddAuthorResponse? UpdateUser(AddAuthorRequest user);
+
+
+        AddAuthorResponse? DeletUser(int userId);
     }
 }

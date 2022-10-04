@@ -4,21 +4,21 @@ namespace TestWebAPI.DL.Interfaces
 {
     public interface IAuthorRepository
     {
-        IEnumerable<Author> GetAllAuthors();
+        Task<IEnumerable<Author>> GetAllAuthors();
 
-        Author GetById(int id);
+        public Task<Author> GetById(int id);
 
-        void AddAutor(Author user);
-
-
-        Author? UpdateUser(Author user);
+         Task<Author> AddAutor(int id);
 
 
-        Author? DeletUser(int userId);
+         public Task<Author>? UpdateUser(int userId);
 
-        Author? GetAuthorByName(string name);
 
-        bool AddMultipleAuthors(IEnumerable<Author> authorCollection);
+        public Task<Author>? DeletAutor(int userId);
+
+        public Task<Author?> GetAuthorByName(string name);
+
+        public Task<bool> AddMultipleAuthors(IEnumerable<Author> authorCollection);
 
     }
 }

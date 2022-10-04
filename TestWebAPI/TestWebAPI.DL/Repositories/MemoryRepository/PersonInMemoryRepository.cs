@@ -3,7 +3,7 @@ using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Repositories.MemoryRepository
 {
-    public class PersonInMemoryRepository : IUserRepository
+    public class PersonInMemoryRepository 
     {
         private static List<Person> _users = new List<Person>()
         {

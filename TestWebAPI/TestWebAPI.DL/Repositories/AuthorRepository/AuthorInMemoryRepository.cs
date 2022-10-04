@@ -5,9 +5,13 @@ using TestWebAPIModels.Models;
 namespace TestWebAPI.DL.Repositories.AuthorRepository
 {
 
-    public class AuthorInMemoryRepository : IAuthorRepository
+    public class AuthorInMemoryRepositor
     {
-        private readonly ILogger<AuthorInMemoryRepository> _authorRepositoryLogger;
+        private readonly ILogger<AuthorInMemoryRepositor> _authorRepositoryLogger;
+        public AuthorInMemoryRepositor(ILogger<AuthorInMemoryRepositor> authorRepositoryLogger)
+        {
+            _authorRepositoryLogger = authorRepositoryLogger;
+        }
 
         private static List<Author> _author = new List<Author>()
         {
@@ -31,10 +35,7 @@ namespace TestWebAPI.DL.Repositories.AuthorRepository
             return _author;
         }
 
-        public AuthorInMemoryRepository(ILogger<AuthorInMemoryRepository> authorRepositoryLogger)
-        {
-            _authorRepositoryLogger = authorRepositoryLogger;
-        }
+        
 
         public IEnumerable<Author> GetAllUsers()
         {
@@ -102,7 +103,7 @@ namespace TestWebAPI.DL.Repositories.AuthorRepository
         {
             try
             {
-                AuthorInMemoryRepository._author.AddRange(authorCollection);
+                AuthorInMemoryRepositor._author.AddRange(authorCollection);
                 return true; 
             }
             catch (Exception)

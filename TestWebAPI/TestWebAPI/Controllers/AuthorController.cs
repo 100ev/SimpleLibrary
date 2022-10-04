@@ -3,6 +3,7 @@ using System.Net.NetworkInformation;
 using AutoMapper;
 using BookStore.BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using TestWebAPI.Model.Request;
 using TestWebAPIModel.Request;
 using TestWebAPIModels.Models;
 
@@ -32,6 +33,8 @@ namespace TestWebAPI.Controllers
 
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost("AddAutorRange")]
         public IActionResult AddAuthorrange([FromBody] 
         AddMultipleAuthosrRequest addMultipleAuthors)
         {
@@ -76,7 +79,7 @@ namespace TestWebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet(nameof(UpdateAuthor))]
 
-        public IActionResult UpdateAuthor(string autName)
+        public IActionResult UpdateAuthor(AddAuthorRequest autName)
         {
             var name = _authorService.GetAuthorByName(autName);
             return Ok(name);

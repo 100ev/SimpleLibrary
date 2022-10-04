@@ -2,17 +2,18 @@
 
 namespace TestWebAPI.DL.Interfaces
 {
-    public interface IUserRepository
+    public interface IPersonRepository
     {
-         IEnumerable<Person> GetAllUsers();
+         Task<IEnumerable<Person>> GetAllUsers();
 
-         Person GetById(int id);
+         Task<Person> GetById(int id);
 
-         Person AddUsers(Person user);
+         Task<Person> AddUsers(Person person);
 
 
-         Person? UpdateUser(Person user);
+         Task<Person>? UpdateUser(Person person);
 
+        Task<Person> DeletePerson(Person person);
        
     }
 }

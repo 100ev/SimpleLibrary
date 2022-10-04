@@ -4,15 +4,12 @@ namespace TestWebAPI.DL.Interfaces
 {
     public interface IBookRepository
     {
-        IEnumerable<Book> GetAlBooks();
-        Book GetById(int id);
+        public Task<IEnumerable<Book>> GetAlBooks();
+        public Task<Book> GetById(int id);
 
         void AddBook(Book book);
-
-
-        Book? FindAuthorById(int id);
-
-
         void RemoveBook(Book book);
+        void UpdateBook (Book book);
+
     }
 }

@@ -5,16 +5,13 @@ namespace TestWebAPI.DL.Service_Interfaces
 {
     public interface IBookService
     {
-        IEnumerable<AddBookResponse> GetAllBooks();
+        IEnumerable<AddBookResponse> GetAllBooks(IEnumerable<AddBookRequest> bookRequests);
 
+        AddBookResponse AddBook(AddBookRequest bookRequest);
 
-        AddBookResponse AddBook(AddBookRequest book);
+        AddBookResponse? UpdateBook(AddBookRequest bookRequests);
 
-
-        AddBookResponse? UpdateBook(AddBookRequest book);
-
-
-        AddBookResponse? DeletBook(AddBookRequest book);
-        object GetById(int id);
+        AddBookResponse? DeletBook(AddBookRequest BookRequest);
+        AddBookResponse GetById(int id);
     }
 }

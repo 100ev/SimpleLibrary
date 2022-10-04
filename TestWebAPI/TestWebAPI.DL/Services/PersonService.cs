@@ -1,40 +1,122 @@
-﻿using BookStore.BL.Interfaces;
+﻿using System.Net;
+using AutoMapper;
+using BookStore.BL.Interfaces;
+using Microsoft.Extensions.Logging;
+using TestWebAPI.DL.Interfaces;
+using TestWebAPI.DL.Repositories.MsSql;
+using TestWebAPI.Model.Request;
+using TestWebAPI.Model.Responses;
+using TestWebAPIModel.Responses;
 using TestWebAPIModels.Models;
 
 namespace BookStore.BL.Services
 {
     public class PersonService : IPersonService
     {
-        private readonly List<Person> _personRepository;
-        public void AddUsers(Person user)
+        private readonly IPersonRepository _personRepository;
+        private readonly IMapper _mapper;
+        private readonly ILogger<PersonService> _logger;
+        public PersonService(IPersonRepository personRepository, IMapper mapper, ILogger<PersonService> logger)
         {
-            _personRepository.Add(user);
+            _personRepository = personRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
-        public void DeletUser(int userId)
+        public AddAuthorResponse AddUsers(AddAuthorResponse user)
         {
-            var user = _personRepository.FirstOrDefault(u => u.Id == userId);
-            _personRepository.Remove(user);
+            try
+            {
+                var person = _personRepository.GetById(user.Author.Id);
+                if (person != null)
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                    };
+
+
+                var personMapper = _mapper.Map<Person>(user);
+                _personRepository.AddUsers(personMapper);
+
+
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                };
+            }
+            catch (Exception)
+            {
+                _logger.LogError("User can't be added");
+            }
+
+            return null;
         }
 
-        public IEnumerable<Person> GetAllUsers()
+        public AddAuthorResponse? DeletUser(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var person = _personRepository.GetById(userId);
+                if (person != null)
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                    };
+
+
+                var personMapper = _mapper.Map<Person>(userId);
+                _personRepository.DeletePerson(personMapper);
+
+
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                };
+            }
+            catch (Exception)
+            {
+                _logger.LogError($"Cannot delete user with Id: {userId}");
+            }
+
+            return null;
         }
 
-        public Person GetById(int id)
+        public IEnumerable<AddAuthorResponse> GetAllUsers()
         {
-            throw new NotImplementedException();
+            List<AddAuthorResponse> users = new List<AddAuthorResponse>();
+
+            return users;
         }
 
-        public Person? UpdateUser(Person user)
+        public AddAuthorResponse GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var person = new Person();
+
+                if (person == null)
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                    };
+
+                var mappedPerson = _mapper.Map<Person>(id);
+
+                _personRepository.GetById(id);
+
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                };
+            }
+            catch (Exception)
+            {
+                _logger.LogError($"There is no person with the represented Id {id}");
+            }
+            return null;
         }
 
-       
-
-        Person? IPersonService.DeletUser(int userId)
+        public AddAuthorResponse? UpdateUser(AddAuthorRequest user)
         {
             throw new NotImplementedException();
         }

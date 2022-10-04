@@ -9,6 +9,8 @@ namespace BookStore.BL.Interfaces
     {
         IEnumerable<AddAuthorResponse> GetAllAuthors();
 
+        AddAuthorResponse GetAuthorByName(AddAuthorRequest name);
+
         AddAuthorResponse GetAuthroById(int id);
 
         AddAuthorResponse AddAutor(AddMultipleAuthosrRequest user);
@@ -16,10 +18,6 @@ namespace BookStore.BL.Interfaces
 
         AddAuthorResponse? UpdateAutor(AddMultipleAuthosrRequest user);
 
-
-        AddAuthorResponse? DeletAutor(AddMultipleAuthosrRequest author);
-
-        AddAuthorResponse? GetAuthorByName(string name);
         public bool AddMultipleAuthors(IEnumerable<Author> authorsCollection);
     }
 
