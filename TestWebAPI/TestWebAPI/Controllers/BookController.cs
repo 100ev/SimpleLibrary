@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.Model.Request;
+using TestWebAPI.Model.Responses;
 
 namespace TestWebAPI.Controllers
 {
@@ -19,22 +20,15 @@ namespace TestWebAPI.Controllers
             _bookLoger = bookLoger;
         }
 
-
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("AddBook")]
 
-        public IActionResult AddBook([FromBody] AddBookRequest bookRequest)
+        public async Task<IActionResult> AddBook([FromBody] AddBookRequest bookRequest)
         {
-            //if (authorRequest == null) return BadRequest(authorRequest);
+             _bookLoger.LogInformation("Adding Book");
 
-            //var authorExist = _authorService.GetAuthorByName(authorRequest.Name);
-
-            //if (authorExist != null) return BadRequest("Author Already Exist!");
-            _bookLoger.LogInformation("Adding Book");
-
-            var result = _bookService.AddBook(bookRequest);
-
+             var result =await _bookService.AddBook(bookRequest);
+            
             if (result.HttpStatusCode == HttpStatusCode.BadRequest)
                 return BadRequest(result);
 
@@ -48,6 +42,25 @@ namespace TestWebAPI.Controllers
             if (id <= 0) return BadRequest($"Parameter id {id} must be greater tahn 0");
             var result = _bookService.GetById(id);
             if (result == null) return NotFound(id);
+            return Ok(result);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet(nameof(UpdateBook))]
+        public IActionResult UpdateBook(AddBookRequest bookRequests, int id)
+        {
+            if (id <= 0) return BadRequest("Id must be greater than 0");
+            var result = _bookService.UpdateBook(bookRequests, id);
+            return Ok(result);
+            
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet(nameof(DeLeteBook))]
+        public IActionResult DeLeteBook(AddBookRequest bookRequest, int id)
+        {
+            if (id <= 0 || bookRequest == null) return BadRequest("Invalid information");
+            var result = _bookService.DeletBook(bookRequest, id);
             return Ok(result);
         }
 

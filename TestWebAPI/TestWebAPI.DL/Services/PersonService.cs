@@ -22,8 +22,16 @@ namespace BookStore.BL.Services
             _mapper = mapper;
             _logger = logger;
         }
+          
 
-        public AddAuthorResponse AddUsers(AddAuthorResponse user)
+        public IEnumerable<AddAuthorResponse> GetAllUsers()
+        {
+            List<AddAuthorResponse> users = new List<AddAuthorResponse>();
+
+            return users;
+        }       
+
+        async Task<AddAuthorResponse> IPersonService.AddUsers(AddAuthorResponse user)
         {
             try
             {
@@ -52,7 +60,7 @@ namespace BookStore.BL.Services
             return null;
         }
 
-        public AddAuthorResponse? DeletUser(int userId)
+        async Task<AddAuthorResponse>? IPersonService.DeletUser(int userId)
         {
             try
             {
@@ -65,7 +73,7 @@ namespace BookStore.BL.Services
 
 
                 var personMapper = _mapper.Map<Person>(userId);
-                _personRepository.DeletePerson(userId);
+                _personRepository.AddUsers(personMapper);
 
 
                 return new AddAuthorResponse()
@@ -75,20 +83,13 @@ namespace BookStore.BL.Services
             }
             catch (Exception)
             {
-                _logger.LogError($"Cannot delete user with Id: {userId}");
+                _logger.LogError("User can't be added");
             }
 
             return null;
         }
 
-        public IEnumerable<AddAuthorResponse> GetAllUsers()
-        {
-            List<AddAuthorResponse> users = new List<AddAuthorResponse>();
-
-            return users;
-        }
-
-        public AddAuthorResponse GetById(int id)
+         async Task<AddAuthorResponse> IPersonService.GetById(int id)
         {
             try
             {
@@ -116,7 +117,7 @@ namespace BookStore.BL.Services
             return null;
         }
 
-        public AddAuthorResponse? UpdateUser(AddAuthorRequest user)
+        Task<AddAuthorResponse>? IPersonService.UpdateUser(AddAuthorRequest user)
         {
             throw new NotImplementedException();
         }

@@ -9,14 +9,14 @@ namespace BookStore.BL.Interfaces
        
         IEnumerable<AddAuthorResponse> GetAllUsers();
 
-        AddAuthorResponse GetById(int id);
+        public Task<AddAuthorResponse> GetById(int id);
 
-        AddAuthorResponse AddUsers(AddAuthorResponse user);
-
-
-        AddAuthorResponse? UpdateUser(AddAuthorRequest user);
+        public Task<AddAuthorResponse> AddUsers(AddAuthorResponse user);
 
 
-        AddAuthorResponse? DeletUser(int userId);
+        public Task<AddAuthorResponse>? UpdateUser(AddAuthorRequest user);
+
+
+        public Task<AddAuthorResponse>? DeletUser(int userId);
     }
 }

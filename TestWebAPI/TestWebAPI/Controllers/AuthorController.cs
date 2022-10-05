@@ -21,26 +21,25 @@ namespace TestWebAPI.Controllers
         {
             _authorService = authorRepository;
             _logger = logger;
-        _mapper = mapper;
+            _mapper = mapper;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("GetAllAuthors")]
-        public IActionResult GetAllAuthors()
+        public async Task<IActionResult> GetAllAuthors()
         {
-            _logger.LogInformation("Log in");
+             _logger.LogInformation("Log in");
             return Ok(_authorService.GetAllAuthors());
-
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("AddAutorRange")]
-        public IActionResult AddAuthorrange([FromBody] 
+        public async Task<IActionResult> AddAuthorrange([FromBody] 
         AddMultipleAuthosrRequest addMultipleAuthors)
         {
             if (addMultipleAuthors == null && !addMultipleAuthors.AuthorRequest.Any())
-                return BadRequest(addMultipleAuthors);
-            var authroCollection = _mapper.Map<IEnumerable<Author>>(addMultipleAuthors);
+                return  BadRequest(addMultipleAuthors);
+             var authroCollection = _mapper.Map<IEnumerable<Author>>(addMultipleAuthors);
 
             var result = _authorService.AddMultipleAuthors(authroCollection);
             if(!result) return BadRequest(result);
@@ -50,15 +49,9 @@ namespace TestWebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("AddAuthor")]
 
-        public IActionResult AddAuthor([FromBody] AddMultipleAuthosrRequest authorRequest)
-        {
-            //if (authorRequest == null) return BadRequest(authorRequest);
-
-            //var authorExist = _authorService.GetAuthorByName(authorRequest.Name);
-
-            //if (authorExist != null) return BadRequest("Author Already Exist!");
-
-            var result = _authorService.AddAutor(authorRequest);
+        public async  Task<IActionResult> AddAuthor([FromBody] AddMultipleAuthosrRequest authorRequest)
+        {          
+            var result =await _authorService.AddAutor(authorRequest);
 
             if (result.HttpStatusCode == HttpStatusCode.BadRequest)
                 return BadRequest(result);
@@ -68,20 +61,20 @@ namespace TestWebAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet(nameof(GetAuthroById))]
-        public IActionResult GetAuthroById(int id)
-        {
+        public async Task<IActionResult> GetAuthroById(int id)
+        {            
             if (id <= 0) return BadRequest($"Parameter id {id} must be greater tahn 0");
-            var result = _authorService.GetAuthroById(id);
+            var result =await _authorService.GetAuthroById(id);
             if (result == null) return NotFound(id);
             return Ok(result);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet(nameof(UpdateAuthor))]
-
-        public IActionResult UpdateAuthor(AddAuthorRequest autName)
+        public async Task<IActionResult> UpdateAuthor(AddAuthorRequest autName)
         {
             var name = _authorService.GetAuthorByName(autName);
+            await name;
             return Ok(name);
         }
 

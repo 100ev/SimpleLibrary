@@ -59,7 +59,7 @@ namespace BookStore.BL.Services
             return autors;
         }
 
-        public AddAuthorResponse? GetAuthorByName(AddAuthorRequest author)
+        public async Task<AddAuthorResponse>? GetAuthorByName(AddAuthorRequest author)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace BookStore.BL.Services
             return null;           
         }            
         
-        AddAuthorResponse IAuthorService.GetAuthroById(int authorId)
+        public async Task<AddAuthorResponse> GetAuthroById(int authorId)
         {
             try
             {
@@ -115,12 +115,12 @@ namespace BookStore.BL.Services
             throw new NotFiniteNumberException();
         }
 
-        public AddAuthorResponse AddAutor(AddMultipleAuthosrRequest user)
+        public async Task<AddAuthorResponse> AddAutor(AddMultipleAuthosrRequest user)
         {
             throw new NotImplementedException();
         }
 
-        public AddAuthorResponse? UpdateAutor(AddMultipleAuthosrRequest authorRequest, int id)
+        public async Task<AddAuthorResponse>? UpdateAutor(AddMultipleAuthosrRequest authorRequest, int id)
         {
             try
             {

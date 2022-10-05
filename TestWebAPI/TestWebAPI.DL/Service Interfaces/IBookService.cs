@@ -7,11 +7,11 @@ namespace TestWebAPI.DL.Service_Interfaces
     {
         IEnumerable<AddBookResponse> GetAllBooks(IEnumerable<AddBookRequest> bookRequests);
 
-        AddBookResponse AddBook(AddBookRequest bookRequest);
+        public Task<AddBookResponse> AddBook(AddBookRequest bookRequest);
 
-        AddBookResponse? UpdateBook(AddBookRequest bookRequests, int id);
+       public Task<AddBookResponse>? UpdateBook(AddBookRequest bookRequests, int id);
 
-        AddBookResponse? DeletBook(AddBookRequest BookRequest, int id);
-        AddBookResponse GetById(int id);
+        public Task<AddBookResponse>? DeletBook(AddBookRequest BookRequest, int id);
+        public Task<AddBookResponse> GetById(int id);
     }
 }

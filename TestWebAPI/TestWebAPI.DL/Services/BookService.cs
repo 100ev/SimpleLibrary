@@ -24,7 +24,7 @@ namespace TestWebAPI.DL.Services
             _mapper = mapper;
             _bookLoger = bookLoger;
         }
-        public AddBookResponse AddBook(AddBookRequest bookRequest)
+        public async Task<AddBookResponse> AddBook(AddBookRequest bookRequest)
         {
             try
             {
@@ -55,9 +55,8 @@ namespace TestWebAPI.DL.Services
 
         }
 
-        public AddBookResponse? DeletBook(AddBookRequest bookRequest,int id)
-        {
-            
+        public async Task<AddBookResponse>? DeletBook(AddBookRequest bookRequest,int id)
+        {            
             try
             {
                 var book = new Book();
@@ -91,7 +90,7 @@ namespace TestWebAPI.DL.Services
             return autors;
         }
 
-        public AddBookResponse GetById(int id)
+        public async Task<AddBookResponse> GetById(int id)
         {
             try
             {
@@ -119,7 +118,7 @@ namespace TestWebAPI.DL.Services
             return null;
         }
 
-        public AddBookResponse? UpdateBook(AddBookRequest book, int id)
+        public async Task<AddBookResponse>? UpdateBook(AddBookRequest book, int id)
         {
             try
             {

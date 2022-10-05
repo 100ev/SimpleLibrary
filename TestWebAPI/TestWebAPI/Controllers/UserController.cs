@@ -1,3 +1,4 @@
+using AutoMapper;
 using BookStore.BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using TestWebAPI.DL.Interfaces;
@@ -12,6 +13,7 @@ namespace TestWebAPI.Controllers
         private readonly IPersonService _userInMemoryRepository;
         private readonly ILogger<UserController> _logger;
         private readonly IAuthorRepository _authorRepository;
+        private readonly IMapper _mapper;
         public UserController(ILogger<UserController> loger, IPersonService userInMemoryRepository)
         {
             _logger = loger;
@@ -22,7 +24,10 @@ namespace TestWebAPI.Controllers
         [HttpGet("GetID")]
         async Task<Person> GetId(int id)
         {
-            return null;//await _userInMemoryRepository.GetById(id)
+             if (id == 0)  return null;
+            var authorId = _userInMemoryRepository.GetById(id);
+            var result =  _mapper.Map<Person>(authorId);
+            return result;
         }
 
         [HttpGet("GetBooks")]
