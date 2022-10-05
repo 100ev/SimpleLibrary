@@ -9,9 +9,9 @@ namespace TestWebAPI.DL.Service_Interfaces
 
         AddBookResponse AddBook(AddBookRequest bookRequest);
 
-        AddBookResponse? UpdateBook(AddBookRequest bookRequests);
+        AddBookResponse? UpdateBook(AddBookRequest bookRequests, int id);
 
-        AddBookResponse? DeletBook(AddBookRequest BookRequest);
+        AddBookResponse? DeletBook(AddBookRequest BookRequest, int id);
         AddBookResponse GetById(int id);
     }
 }

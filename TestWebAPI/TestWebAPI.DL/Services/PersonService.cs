@@ -65,7 +65,7 @@ namespace BookStore.BL.Services
 
 
                 var personMapper = _mapper.Map<Person>(userId);
-                _personRepository.DeletePerson(personMapper);
+                _personRepository.DeletePerson(userId);
 
 
                 return new AddAuthorResponse()

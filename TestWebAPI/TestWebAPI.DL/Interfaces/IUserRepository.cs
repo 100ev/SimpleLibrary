@@ -11,9 +11,9 @@ namespace TestWebAPI.DL.Interfaces
          Task<Person> AddUsers(Person person);
 
 
-         Task<Person>? UpdateUser(Person person);
+         Task<Person>? UpdateUser(int person);
 
-        Task<Person> DeletePerson(Person person);
+        Task<Person> DeletePerson(int id);
        
     }
 }

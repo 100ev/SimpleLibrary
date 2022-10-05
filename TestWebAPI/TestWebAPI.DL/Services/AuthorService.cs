@@ -23,11 +23,11 @@ namespace BookStore.BL.Services
             _logger = loger;
         }
 
-        public AddAuthorResponse AddAutor(AddMultipleAuthosrRequest autorRequest)
+        public AddAuthorResponse AddAutor(int autorRequest)
         {
             try
             {                
-                var auth = _authorService.GetAuthorByName(autorRequest.Name);
+                var auth = _authorService.GetById(autorRequest);
 
                 if (auth != null)
                     return new AddAuthorResponse()
@@ -35,7 +35,7 @@ namespace BookStore.BL.Services
                         HttpStatusCode = HttpStatusCode.BadRequest,
                     };
                 var author = _mapper.Map<Author>(autorRequest);
-                _authorService.AddAutor(author);
+                _authorService.AddAutor(autorRequest);
 
 
                 return new AddAuthorResponse()
@@ -79,45 +79,7 @@ namespace BookStore.BL.Services
             }
            
             return null;           
-        }
-
-       
-        public AddAuthorResponse? UpdateAutor(AddMultipleAuthosrRequest autorRequest)
-        {
-            try
-            {
-                var auth = _authorService.GetAuthorByName(autorRequest.Name);
-
-                if (auth != null)
-                    return new AddAuthorResponse()
-                    {
-                        HttpStatusCode = HttpStatusCode.BadRequest,
-                    };
-
-                var author = _mapper.Map<Author>(autorRequest);
-
-                _authorService.AddAutor(author);
-
-                return new AddAuthorResponse()
-                {
-                    HttpStatusCode = HttpStatusCode.OK,
-                    Author = author
-                };
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Author already exist");
-            }
-
-            return null;
-            
-        }
-
-
-        public bool AddMultipleAuthors(AddMultipleAuthosrRequest authorsCollection)
-        {
-            throw new NotImplementedException();
-        }
+        }            
         
         AddAuthorResponse IAuthorService.GetAuthroById(int authorId)
         {
@@ -150,7 +112,42 @@ namespace BookStore.BL.Services
 
         public bool AddMultipleAuthors(IEnumerable<Author> authorsCollection)
         {
+            throw new NotFiniteNumberException();
+        }
+
+        public AddAuthorResponse AddAutor(AddMultipleAuthosrRequest user)
+        {
             throw new NotImplementedException();
+        }
+
+        public AddAuthorResponse? UpdateAutor(AddMultipleAuthosrRequest authorRequest, int id)
+        {
+            try
+            {
+                var auth = _authorService.GetById(id);
+
+                if (auth != null)
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                    };
+
+                var author = _mapper.Map<Author>(authorRequest);
+
+                _authorService.AddAutor(id);
+
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                    Author = author
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Author already exist");
+            }
+
+            return null;
         }
     }
 }

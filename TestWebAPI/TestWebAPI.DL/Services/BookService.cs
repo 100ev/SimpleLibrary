@@ -55,8 +55,9 @@ namespace TestWebAPI.DL.Services
 
         }
 
-        public AddBookResponse? DeletBook(AddBookRequest bookRequest)
+        public AddBookResponse? DeletBook(AddBookRequest bookRequest,int id)
         {
+            
             try
             {
                 var book = new Book();
@@ -69,7 +70,7 @@ namespace TestWebAPI.DL.Services
                 
                 var mapBook = _mapper.Map<Book>(bookRequest);
 
-                _bookRepository.RemoveBook(book);
+                _bookRepository.RemoveBook(id);
 
                 return new AddBookResponse()
                 {
@@ -118,7 +119,7 @@ namespace TestWebAPI.DL.Services
             return null;
         }
 
-        public AddBookResponse? UpdateBook(AddBookRequest book)
+        public AddBookResponse? UpdateBook(AddBookRequest book, int id)
         {
             try
             {
@@ -131,7 +132,7 @@ namespace TestWebAPI.DL.Services
                     };
 
                 var mapBook = _mapper.Map<Book>(newBook);
-                _bookRepository.UpdateBook(mapBook);
+                _bookRepository.UpdateBook(id);
 
                 return new AddBookResponse()
                 {

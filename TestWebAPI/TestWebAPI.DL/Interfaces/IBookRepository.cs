@@ -8,8 +8,8 @@ namespace TestWebAPI.DL.Interfaces
         public Task<Book> GetById(int id);
 
         void AddBook(Book book);
-        void RemoveBook(Book book);
-        void UpdateBook (Book book);
+        void RemoveBook(int id);
+        void UpdateBook (int id);
 
     }
 }

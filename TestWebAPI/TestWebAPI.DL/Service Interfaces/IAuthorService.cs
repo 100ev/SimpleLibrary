@@ -16,7 +16,7 @@ namespace BookStore.BL.Interfaces
         AddAuthorResponse AddAutor(AddMultipleAuthosrRequest user);
 
 
-        AddAuthorResponse? UpdateAutor(AddMultipleAuthosrRequest user);
+        AddAuthorResponse? UpdateAutor(AddMultipleAuthosrRequest authorRequest, int id);
 
         public bool AddMultipleAuthors(IEnumerable<Author> authorsCollection);
     }
