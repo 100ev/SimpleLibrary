@@ -3,10 +3,12 @@ using BookStore.BL.Interfaces;
 using BookStore.BL.Services;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
+using TestWebAPI.DL.Extention;
 using TestWebAPI.DL.Interfaces;
 using TestWebAPI.DL.Repositories.MsSql;
 using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.DL.Services;
+using TestWebAPI.HealthChecks;
 
 var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -33,6 +35,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHealthChecks()
+    .AddCheck<SqlHealthCheck>("Sql Server")
+    .AddCheck<CustomHealthCheck>("Custom Health Check")
+    .AddUrlGroup(new Uri("https://google.bg"), name: "Google Service");
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,5 +55,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+//app.MapHealthChecks("/health");
 
+app.RegisterHealthChecks();
 app.Run();
