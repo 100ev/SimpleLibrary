@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -20,9 +15,9 @@ namespace TestWebAPI.DL.Repositories.MsSql
         {
             _logger = logger;
             _configuration = configuration;
-        }
+        }             
 
-        public async Task<Author> AddAutor(int authorId)
+        public async Task<Author> AddAutor(Author author)
         {
             var results = new List<Author>();
             try
@@ -30,11 +25,8 @@ namespace TestWebAPI.DL.Repositories.MsSql
                 await using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await conn.OpenAsync();
-                    return await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors WHERE Id = @Id", new { Id = authorId });
-                    results.Remove(new Author()
-                    {
-                        Id = authorId,
-                    });
+                    return await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors");
+                    results.Add(new Author());
                 }
             }
             catch (Exception e)
@@ -45,24 +37,22 @@ namespace TestWebAPI.DL.Repositories.MsSql
             return null;
         }
 
-        public Task<bool> AddMultipleAuthors(IEnumerable<Author> authorCollection)
+        public Task<Author> AddMultipleAuthors(Author author)
         {
             throw new NotImplementedException();
         }
 
         public async Task<Author>? DeletAutor(int userId)
         {
-            var results = new List<Author>();
+            var authors = new List<Author>();
             try
             {
                 await using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await conn.OpenAsync();
-                    return await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors WHERE Id = @Id", new { Id = userId });
-                    results.Remove(new Author()
-                    {
-                        Id = userId,
-                    });
+                    var author =  await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors WHERE Id = @Id", new { Id = userId });
+                    if (authors.Contains(author)) authors.Remove(author);
+                    return author;                    
                 }
             }
             catch (Exception e)
@@ -75,15 +65,14 @@ namespace TestWebAPI.DL.Repositories.MsSql
 
         public async Task<IEnumerable<Author>> GetAllAuthors()
         {
-            var results = new List<Author>();
             try
             {
                await  using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     
                     await conn.OpenAsync();
-                   return  await conn.QueryAsync<Author>("SELECT * FROM Authors WITH(NOLOCK)");                   
-                    
+                   var result =  await conn.QueryAsync<Author>("SELECT * FROM Authors WITH(NOLOCK)");
+                    return result;
                 }
             }
             catch (Exception e)
@@ -102,6 +91,7 @@ namespace TestWebAPI.DL.Repositories.MsSql
                 {
                     await conn.OpenAsync();
                     var result = await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors WHERE Name = @Name", new { Name = name });
+                    return result;
                 }
             }
             catch (Exception e)
@@ -120,8 +110,8 @@ namespace TestWebAPI.DL.Repositories.MsSql
                 {
 
                     await conn.OpenAsync();
-                    return await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors WHERE Id = @Id", new { Id = id });
-
+                    var result =  await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors WHERE Id = @Id", new { Id = id });
+                    return result;
                 }
             }
             catch (Exception e)
@@ -141,7 +131,8 @@ namespace TestWebAPI.DL.Repositories.MsSql
                 await using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await conn.OpenAsync();
-                    return await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors WHERE Id = @Id", new { Id = authroId });                    
+                    var result = await conn.QueryFirstOrDefaultAsync<Author>("SELECT * FROM Authors WHERE Id = @Id", new { Id = authroId });
+                    return result;
                 }
             }
             catch (Exception e)

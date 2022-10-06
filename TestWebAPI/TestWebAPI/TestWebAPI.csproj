@@ -20,5 +20,7 @@
     <ProjectReference Include="..\TestWebAPI.DL\TestWebAPI.DL.csproj" />
     <ProjectReference Include="..\TestWebAPIModels\TestWebAPI.Model.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+	<InternalsVisibleTo Include="TestWebAPI.Test"/>
+	</ItemGroup>
 </Project>

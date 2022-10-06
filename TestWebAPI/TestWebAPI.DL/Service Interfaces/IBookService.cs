@@ -5,7 +5,7 @@ namespace TestWebAPI.DL.Service_Interfaces
 {
     public interface IBookService
     {
-        IEnumerable<AddBookResponse> GetAllBooks(IEnumerable<AddBookRequest> bookRequests);
+        public Task<AddBookResponse> GetAllBooks();
 
         public Task<AddBookResponse> AddBook(AddBookRequest bookRequest);
 

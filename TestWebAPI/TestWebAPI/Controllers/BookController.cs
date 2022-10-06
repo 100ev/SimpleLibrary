@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.Model.Request;
@@ -12,12 +13,14 @@ namespace TestWebAPI.Controllers
     {
         private readonly IBookService _bookService;
         private readonly ILogger<BookController> _bookLoger;
+        private readonly IMapper _mapper;
 
 
-        public BookController(IBookService bookRepository, ILogger<BookController> bookLoger)
+        public BookController(IBookService bookRepository, ILogger<BookController> bookLoger, IMapper mapper)
         {
             _bookService = bookRepository;
             _bookLoger = bookLoger;
+            _mapper = mapper;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -37,10 +40,10 @@ namespace TestWebAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet(nameof(GetBookById))]
-        public IActionResult GetBookById(int id)
+        public async Task<IActionResult> GetBookById(int id)
         {
             if (id <= 0) return BadRequest($"Parameter id {id} must be greater tahn 0");
-            var result = _bookService.GetById(id);
+            var result = await _bookService.GetById(id);
             if (result == null) return NotFound(id);
             return Ok(result);
         }

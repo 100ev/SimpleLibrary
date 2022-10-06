@@ -12,95 +12,58 @@ namespace BookStore.BL.Services
 {
     public class AuthorService : IAuthorService
     {
-        private readonly IAuthorRepository _authorService;
+        private readonly IAuthorRepository _authorRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<AuthorService> _logger;
 
+
         public AuthorService(IAuthorRepository authorService, IMapper mapper, ILogger<AuthorService> loger)
         {
-            _authorService = authorService;
+            _authorRepository = authorService;
             _mapper = mapper;
             _logger = loger;
         }
-
-        public AddAuthorResponse AddAutor(int autorRequest)
-        {
-            try
-            {                
-                var auth = _authorService.GetById(autorRequest);
-
-                if (auth != null)
-                    return new AddAuthorResponse()
-                    {
-                        HttpStatusCode = HttpStatusCode.BadRequest,
-                    };
-                var author = _mapper.Map<Author>(autorRequest);
-                _authorService.AddAutor(autorRequest);
-
-
-                return new AddAuthorResponse()
-                {
-                    HttpStatusCode = HttpStatusCode.OK,
-                    Author = author
-                };
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Author already exist");
-            }
-
-            return null;
-            
-        }       
-
-        public IEnumerable<AddAuthorResponse> GetAllAuthors()
-        {
-            List<AddAuthorResponse> autors = new List<AddAuthorResponse>();
-            return autors;
-        }
-
         public async Task<AddAuthorResponse>? GetAuthorByName(AddAuthorRequest author)
         {
             try
             {
-                var name = author.Name;
-                if (name == null) return null;
+                var autName = await _authorRepository.GetAuthorByName(author.Name);
+                if (author == null)
                 return new AddAuthorResponse()
                 {
                     HttpStatusCode = HttpStatusCode.BadRequest,
+                };              
+                else              
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                    Author = autName
                 };
-
-                var autName = _mapper.Map<Author>(author);
-                _authorService.GetAuthorByName(autName.Name);
             }
             catch (Exception)
             {
                 _logger.LogError("There is no such author");
             }
-           
-            return null;           
-        }            
-        
+
+            return null;
+        }
+
         public async Task<AddAuthorResponse> GetAuthroById(int authorId)
         {
             try
             {
-                var auth = new Author();
+                var reslt = await _authorRepository.GetById(authorId);
 
-                if (auth != null)
-                    return new AddAuthorResponse()
-                    {
-                        HttpStatusCode = HttpStatusCode.BadRequest,
-                    };
-
-                var author = _mapper.Map<Author>(authorId);
-
-                _authorService.GetById(author.Id);
-
+                if (reslt == null)
+                return new AddAuthorResponse()
+                {
+                   HttpStatusCode = HttpStatusCode.NotFound
+                };
+                else
                 return new AddAuthorResponse()
                 {
                     HttpStatusCode = HttpStatusCode.OK,
-                    Author = author
+                    Author = reslt
                 };
             }
             catch (Exception)
@@ -110,21 +73,11 @@ namespace BookStore.BL.Services
             return null;
         }
 
-        public bool AddMultipleAuthors(IEnumerable<Author> authorsCollection)
-        {
-            throw new NotFiniteNumberException();
-        }
-
-        public async Task<AddAuthorResponse> AddAutor(AddMultipleAuthosrRequest user)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<AddAuthorResponse>? UpdateAutor(AddMultipleAuthosrRequest authorRequest, int id)
         {
             try
             {
-                var auth = _authorService.GetById(id);
+                var auth = _authorRepository.GetById(id);
 
                 if (auth != null)
                     return new AddAuthorResponse()
@@ -134,7 +87,7 @@ namespace BookStore.BL.Services
 
                 var author = _mapper.Map<Author>(authorRequest);
 
-                _authorService.AddAutor(id);
+                await _authorRepository.AddAutor(author);
 
                 return new AddAuthorResponse()
                 {
@@ -144,10 +97,123 @@ namespace BookStore.BL.Services
             }
             catch (Exception e)
             {
-                _logger.LogError("Author already exist");
+                _logger.LogError("Cannot update author");
             }
 
             return null;
+        }
+
+        public async Task<AddAuthorResponse> GetAllAuthors()
+        {
+            try
+            {
+                if (_authorRepository == null)
+                {
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.NotFound
+                    };
+                }
+                var result = await _authorRepository.GetAllAuthors();
+                var books = _mapper.Map<Book>(result);
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception)
+            {
+                _logger.LogError("Author collection does not exit");
+            }
+            return null;
+        }           
+
+        public async Task<AddAuthorResponse> DeleteAuthor(AddAuthorRequest authorRequest)
+        {
+            try
+            {
+                var author = _mapper.Map<Author>(authorRequest);
+                var authId = authorRequest.Id;
+
+                var authorToDelete = await _authorRepository.DeletAutor(authId);
+                if (authId <= 0)
+                {
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                    };
+                }
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Cannot delete author");
+            }
+
+            return null;
+        }
+
+        public async Task<AddAuthorResponse> AddAutor(AddAuthorRequest authorRequest)
+        {
+            try
+            {                    
+                var author = _mapper.Map<Author>(authorRequest);
+
+                var returnedAuthor = await _authorRepository.AddAutor(author);
+                if (returnedAuthor == null)
+                {
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                        Author = author
+                    };
+                }
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                    Author = author
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Cannot add Author");
+            }
+
+            return null;
+        }
+
+        public async Task<AddAuthorResponse> AddMultipleAuthors(IEnumerable<AddAuthorRequest> authorRequest)
+        {
+            List<AddAuthorResponse> authors = new List<AddAuthorResponse>();
+            try
+            {
+                if (authorRequest == null)
+                {
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                    };
+                }
+                var author = _mapper.Map<Author>(authorRequest);
+
+                await _authorRepository.AddMultipleAuthors(author);
+
+                
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                };               
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("There is no collection");
+            }
+            var result = _mapper.Map<AddAuthorResponse>(authors);
+
+            return result;
         }
     }
 }

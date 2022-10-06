@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using AutoMapper;
 using BookStore.BL.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using TestWebAPI.DL.Interfaces;
 using TestWebAPI.DL.Repositories.MsSql;
@@ -22,14 +23,14 @@ namespace BookStore.BL.Services
             _mapper = mapper;
             _logger = logger;
         }
-          
+
 
         public IEnumerable<AddAuthorResponse> GetAllUsers()
         {
             List<AddAuthorResponse> users = new List<AddAuthorResponse>();
 
             return users;
-        }       
+        }
 
         async Task<AddAuthorResponse> IPersonService.AddUsers(AddAuthorResponse user)
         {
@@ -44,7 +45,7 @@ namespace BookStore.BL.Services
 
 
                 var personMapper = _mapper.Map<Person>(user);
-                _personRepository.AddUsers(personMapper);
+                await _personRepository.AddUsers(personMapper);
 
 
                 return new AddAuthorResponse()
@@ -65,7 +66,7 @@ namespace BookStore.BL.Services
             try
             {
                 var person = _personRepository.GetById(userId);
-                if (person != null)
+                if (userId <= 0)
                     return new AddAuthorResponse()
                     {
                         HttpStatusCode = HttpStatusCode.BadRequest,
@@ -73,7 +74,7 @@ namespace BookStore.BL.Services
 
 
                 var personMapper = _mapper.Map<Person>(userId);
-                _personRepository.AddUsers(personMapper);
+                await _personRepository.AddUsers(personMapper);
 
 
                 return new AddAuthorResponse()
@@ -89,13 +90,11 @@ namespace BookStore.BL.Services
             return null;
         }
 
-         async Task<AddAuthorResponse> IPersonService.GetById(int id)
+        async Task<AddAuthorResponse> IPersonService.GetById(int id)
         {
             try
-            {
-                var person = new Person();
-
-                if (person == null)
+            {               
+                if (id <= 0)
                     return new AddAuthorResponse()
                     {
                         HttpStatusCode = HttpStatusCode.BadRequest,
@@ -103,7 +102,7 @@ namespace BookStore.BL.Services
 
                 var mappedPerson = _mapper.Map<Person>(id);
 
-                _personRepository.GetById(id);
+                await _personRepository.GetById(id);
 
                 return new AddAuthorResponse()
                 {
@@ -117,9 +116,29 @@ namespace BookStore.BL.Services
             return null;
         }
 
-        Task<AddAuthorResponse>? IPersonService.UpdateUser(AddAuthorRequest user)
+        async Task<AddAuthorResponse>? IPersonService.UpdateUser(AddAuthorRequest user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (user == null)
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                    };
+
+                var mapBook = _mapper.Map<Author>(user);
+               await _personRepository.UpdateUser(user.Id);
+
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception)
+            {
+                _logger.LogError("The person can't be updated");
+            }
+            return null;
         }
     }
 }

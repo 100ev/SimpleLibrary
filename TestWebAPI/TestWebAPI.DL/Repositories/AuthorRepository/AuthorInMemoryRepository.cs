@@ -5,7 +5,7 @@ using TestWebAPIModels.Models;
 namespace TestWebAPI.DL.Repositories.AuthorRepository
 {
 
-    public class AuthorInMemoryRepositor
+    public class AuthorInMemoryRepositor 
     {
         private readonly ILogger<AuthorInMemoryRepositor> _authorRepositoryLogger;
         public AuthorInMemoryRepositor(ILogger<AuthorInMemoryRepositor> authorRepositoryLogger)

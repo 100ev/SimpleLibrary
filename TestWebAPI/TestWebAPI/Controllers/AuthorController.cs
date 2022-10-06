@@ -39,17 +39,16 @@ namespace TestWebAPI.Controllers
         {
             if (addMultipleAuthors == null && !addMultipleAuthors.AuthorRequest.Any())
                 return  BadRequest(addMultipleAuthors);
-             var authroCollection = _mapper.Map<IEnumerable<Author>>(addMultipleAuthors);
 
-            var result = _authorService.AddMultipleAuthors(authroCollection);
-            if(!result) return BadRequest(result);
+            var result =await _authorService.AddMultipleAuthors(addMultipleAuthors.AuthorRequest);
+            if(result == null) return BadRequest(result);
 
             return Ok(result);
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("AddAuthor")]
 
-        public async  Task<IActionResult> AddAuthor([FromBody] AddMultipleAuthosrRequest authorRequest)
+        public async  Task<IActionResult> AddAuthor([FromBody] AddAuthorRequest authorRequest)
         {          
             var result =await _authorService.AddAutor(authorRequest);
 

@@ -5,7 +5,6 @@ using TestWebAPI.DL.Interfaces;
 using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.Model.Request;
 using TestWebAPI.Model.Responses;
-using TestWebAPIModel.Responses;
 using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Services
@@ -59,9 +58,7 @@ namespace TestWebAPI.DL.Services
         {            
             try
             {
-                var book = new Book();
-
-                if (book != null)
+                if (bookRequest != null)
                     return new AddBookResponse()
                     {
                         HttpStatusCode = HttpStatusCode.BadRequest,
@@ -83,20 +80,35 @@ namespace TestWebAPI.DL.Services
             return null;
         }
 
-        public IEnumerable<AddBookResponse> GetAllBooks(IEnumerable<AddBookRequest> bookRequests)
+        public async Task<AddBookResponse> GetAllBooks()
         {
+            try
+            {
+                if (_bookRepository == null)
+                    return new AddBookResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.NotFound
+                    };
+                var result = await _bookRepository.GetAlBooks();
+                var books = _mapper.Map<Book>(result);
+                return new AddBookResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception)
+            {
+                _bookLoger.LogError("book collection does not exit");
+            }
+            return null;
 
-            List<AddBookResponse> autors = new List<AddBookResponse>();
-            return autors;
         }
 
         public async Task<AddBookResponse> GetById(int id)
         {
             try
             {
-                var book = new Book();
-
-                if (book != null || id >= 0)
+                if (id <= 0)
                     return new AddBookResponse()
                     {
                         HttpStatusCode = HttpStatusCode.BadRequest,
@@ -104,7 +116,7 @@ namespace TestWebAPI.DL.Services
 
                 var mapBook = _mapper.Map<Book>(id);
 
-                _bookRepository.GetById(book.Id);
+               await _bookRepository.GetById(id);
 
                 return new AddBookResponse()
                 {

@@ -8,7 +8,7 @@ namespace TestWebAPI.DL.Interfaces
 
         public Task<Author> GetById(int id);
 
-         Task<Author> AddAutor(int id);
+         Task<Author> AddAutor(Author author);
 
 
          public Task<Author>? UpdateUser(int userId);
@@ -18,7 +18,7 @@ namespace TestWebAPI.DL.Interfaces
 
         public Task<Author?> GetAuthorByName(string name);
 
-        public Task<bool> AddMultipleAuthors(IEnumerable<Author> authorCollection);
+        public Task<Author> AddMultipleAuthors (Author author);
 
     }
 }
