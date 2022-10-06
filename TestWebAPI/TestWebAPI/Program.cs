@@ -1,8 +1,10 @@
 using BookStore.BL.Extention;
 using BookStore.BL.Interfaces;
 using BookStore.BL.Services;
+using MediatR;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
+using TestWebAPI.CommandHandlers;
 using TestWebAPI.DL.Extention;
 using TestWebAPI.DL.Interfaces;
 using TestWebAPI.DL.Repositories.MsSql;
@@ -39,6 +41,8 @@ builder.Services.AddHealthChecks()
     .AddCheck<SqlHealthCheck>("Sql Server")
     .AddCheck<CustomHealthCheck>("Custom Health Check")
     .AddUrlGroup(new Uri("https://google.bg"), name: "Google Service");
+
+builder.Services.AddMediatR(typeof(GetAllBooksCommandHandler).Assembly);
 
 
 var app = builder.Build();

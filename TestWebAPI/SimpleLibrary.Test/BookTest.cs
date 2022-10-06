@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -33,7 +34,7 @@ namespace TestWebAPI.Test
         private Mock<ILogger<BookService>> _loggerMock;
         private Mock<ILogger<BookController>> _bookControllerMock;
         private readonly Mock<IBookRepository> _bookRepositoryMock;
-
+        private readonly IMediator _mediaator;
         public BookTest()
         {
             var mockMapperConfig = new MapperConfiguration(cfg =>
@@ -59,7 +60,7 @@ namespace TestWebAPI.Test
 
             //inject
             var service = new BookService(_bookRepositoryMock.Object, _mapper, _loggerMock.Object);
-            var controller = new BookController(service, _bookControllerMock.Object, _mapper);
+            var controller = new BookController(service, _bookControllerMock.Object, _mapper, _mediaator);
 
             //act
             var result = await controller.GetBookById(bookId);

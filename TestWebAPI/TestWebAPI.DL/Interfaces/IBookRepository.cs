@@ -7,9 +7,9 @@ namespace TestWebAPI.DL.Interfaces
         public Task<IEnumerable<Book>> GetAlBooks();
         public Task<Book> GetById(int id);
 
-        void AddBook(Book book);
-        void RemoveBook(int id);
-        void UpdateBook (int id);
+        public Task<Book> AddBook(Book book);
+        public Task<Book> RemoveBook(int id);
+        public Task<Book> UpdateBook (int id);
 
     }
 }

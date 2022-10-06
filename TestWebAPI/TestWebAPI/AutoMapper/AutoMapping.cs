@@ -11,9 +11,9 @@ namespace TestWebAPI.AutoMapper
         public AutoMapping() 
         {
             CreateMap<AddMultipleAuthosrRequest, Author>();
-            CreateMap<AddBookRequest, Book>();
-            CreateMap<AddBookRequest, Author>();
-            CreateMap<AddBookRequest, AddBookResponse>();
+            CreateMap<AddBookRequest, AddBookRequest>();
+            CreateMap<Model.Request.AddBookRequest, Author>();
+            CreateMap<Model.Request.AddBookRequest, AddBookResponse>();
         }
     }
 }
