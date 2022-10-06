@@ -1,18 +1,21 @@
 ﻿using BookStore.BL.Interfaces;
+using TestWebAPI.DL.Interfaces;
+using TestWebAPIModels.Models;
 
 namespace BookStore.BL.Services
 {
-    public class PersonService : IUserRepository
+    public class PersonService : IPersonService
     {
-        private readonly IUserRepository _personRepository;
-        public Person AddUsers(Person user)
+        private readonly List<Person> _personRepository;
+        public void AddUsers(Person user)
         {
-           return _personRepository.AddUsers(user);
+            _personRepository.Add(user);
         }
 
-        public Person? DeletUser(int userId)
+        public void DeletUser(int userId)
         {
-            throw new NotImplementedException();
+            var user = _personRepository.FirstOrDefault(u => u.Id == userId);
+            _personRepository.Remove(user);
         }
 
         public IEnumerable<Person> GetAllUsers()
@@ -26,6 +29,13 @@ namespace BookStore.BL.Services
         }
 
         public Person? UpdateUser(Person user)
+        {
+            throw new NotImplementedException();
+        }
+
+       
+
+        Person? IPersonService.DeletUser(int userId)
         {
             throw new NotImplementedException();
         }

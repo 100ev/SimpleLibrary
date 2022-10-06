@@ -1,7 +1,7 @@
+using AutoMapper;
+using BookStore.BL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using TestWebAPI.DL.Interfaces;
-using TestWebAPI.DL.Repositories.MemoryRepository;
-using TestWebAPIModels;
 using TestWebAPIModels.Models;
 
 namespace TestWebAPI.Controllers
@@ -10,35 +10,37 @@ namespace TestWebAPI.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userInMemoryRepository;
+        private readonly IPersonService _userInMemoryRepository;
         private readonly ILogger<UserController> _logger;
-        private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
-        public UserController(ILogger<UserController> loger, IUserRepository userInMemoryRepository, IBookRepository bookRepository, IAuthorRepository authorRepository)
+        private readonly IMapper _mapper;
+        public UserController(ILogger<UserController> loger, IPersonService userInMemoryRepository)
         {
             _logger = loger;
             _userInMemoryRepository = userInMemoryRepository;
-            _bookRepository = bookRepository;
-            _authorRepository = authorRepository;
+           
         }       
 
         [HttpGet("GetID")]
-        public IEnumerable<Person> GetId()
+        async Task<Person> GetId(int id)
         {
-            return _userInMemoryRepository.GetAllUsers();
-
+             if (id == 0)  return null;
+            var authorId = _userInMemoryRepository.GetById(id);
+            var result =  _mapper.Map<Person>(authorId);
+            return result;
         }
 
         [HttpGet("GetBooks")]
-        public IEnumerable<Book> GetBooks()
+        async  Task<IEnumerable<Book>> GetBooks()
         {
-            return _bookRepository.GetAlBooks();
+            return null;//await _bookRepository.GetAlBooks();
 
         }
         [HttpGet("GetAuthors")]
-        public IEnumerable<Author> GetAuthors()
+        public async Task<IEnumerable<Author>> GetAuthors()
         {
-            return _authorRepository.GetAllAuthors();
+
+            return await  _authorRepository.GetAllAuthors();
 
         }
     }

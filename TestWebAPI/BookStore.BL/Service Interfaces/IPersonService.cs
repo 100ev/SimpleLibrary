@@ -1,12 +1,15 @@
-﻿namespace BookStore.BL.Interfaces
+﻿using TestWebAPIModels.Models;
+
+namespace BookStore.BL.Interfaces
 {
-    public interface IUserRepository
+    public interface IPersonService
     {
+       
         IEnumerable<Person> GetAllUsers();
 
         Person GetById(int id);
 
-        Person AddUsers(Person user);
+        void AddUsers(Person user);
 
 
         Person? UpdateUser(Person user);

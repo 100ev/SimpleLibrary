@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TestWebAPI.DL.Interfaces;
+﻿using TestWebAPI.DL.Interfaces;
 using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Repositories.BookRepository
 {
-    public class BookInMemoryRepository : IBookRepository
+    public class BookInMemoryRepository 
     {
         private static List<Book> _books = new List<Book>()
         {
@@ -32,7 +27,7 @@ namespace TestWebAPI.DL.Repositories.BookRepository
         }
         public IEnumerable<Book> GetAlBooks()
         {
-            return _books;
+             return  _books;
         }
 
         public void AddBook(Book book)
@@ -40,15 +35,16 @@ namespace TestWebAPI.DL.Repositories.BookRepository
             _books.Add(book);
         }
 
-        public Book? FindAuthorById(int id)
+        async Task<Book>? FindAuthorById(int id)
         {
+            
             if (id <= 0) return null;
             
-            var authorId = _books.Single(at => at.AuthorId == id);
-            return authorId;
+             var authorId = _books.Single(at => at.AuthorId == id);
+            return  authorId;
         }
 
-        public Book GetById(int id)
+        async Task<Book> GetById(int id)
         {
             if (id <= 0) return null;
 

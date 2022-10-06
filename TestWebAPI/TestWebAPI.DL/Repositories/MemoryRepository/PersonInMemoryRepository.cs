@@ -1,10 +1,9 @@
 ﻿using TestWebAPI.DL.Interfaces;
-using TestWebAPIModels;
 using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Repositories.MemoryRepository
 {
-    public class PersonInMemoryRepository : IUserRepository
+    public class PersonInMemoryRepository 
     {
         private static List<Person> _users = new List<Person>()
         {
@@ -69,11 +68,6 @@ namespace TestWebAPI.DL.Repositories.MemoryRepository
             var user = _users.FirstOrDefault(x => x.Id == userId);
             _users.Remove(user);
             return user;
-        }
-
-        Book? IUserRepository.DeletUser(int userId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

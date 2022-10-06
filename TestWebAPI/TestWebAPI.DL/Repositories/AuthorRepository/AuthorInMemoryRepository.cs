@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
 using TestWebAPI.DL.Interfaces;
 using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Repositories.AuthorRepository
 {
 
-    public class AuthorInMemoryRepository : IAuthorRepository
+    public class AuthorInMemoryRepositor 
     {
-        private static List<Author> _users = new List<Author>()
+        private readonly ILogger<AuthorInMemoryRepositor> _authorRepositoryLogger;
+        public AuthorInMemoryRepositor(ILogger<AuthorInMemoryRepositor> authorRepositoryLogger)
+        {
+            _authorRepositoryLogger = authorRepositoryLogger;
+        }
+
+        private static List<Author> _author = new List<Author>()
         {
             new Author()
             {
@@ -31,28 +32,26 @@ namespace TestWebAPI.DL.Repositories.AuthorRepository
         };
        public IEnumerable<Author> GetAllAuthors()
         {
-            return _users;
+            return _author;
         }
 
-        public AuthorInMemoryRepository()
-        {
-        }
+        
 
         public IEnumerable<Author> GetAllUsers()
         {
-            return _users;
+            return _author;
         }
 
         public Author GetById(int id)
         {
-            return _users.FirstOrDefault(x => x.Id == id);
+            return _author.FirstOrDefault(x => x.Id == id);
         }
 
         public Author AddUsers(Author user)
         {
             try
             {
-                _users.Add(user);
+                _author.Add(user);
 
             }
             catch (Exception e)
@@ -65,23 +64,55 @@ namespace TestWebAPI.DL.Repositories.AuthorRepository
 
         public Author? UpdateUser(Author user)
         {
-            var existingUser = _users.FirstOrDefault(x => x.Id == user.Id);
-            if (existingUser == null) return null;
-            _users.Remove(existingUser);
-            _users.Add(user);
+            try
+            {
+                var existingUser = _author.FirstOrDefault(x => x.Id == user.Id);
+                if (existingUser == null) return null;
+                _author.Remove(existingUser);
+                _author.Add(user);
 
-            return user;
+                return user;
+            }
+            catch (Exception)
+            {
+                 _authorRepositoryLogger.LogError("Author not found");
+            }
+            return null;
+            
         }
 
         public Author? DeletUser(int userId)
         {
             if (userId <= 0) return null;
-            var user = _users.FirstOrDefault(x => x.Id == userId);
-            _users.Remove(user);
+            var user = _author.FirstOrDefault(x => x.Id == userId);
+            _author.Remove(user);
             return user;
         }
 
-        
+        public Author? GetAuthorByName(string name)
+        {
+            return _author.FirstOrDefault(a => a.Name == name);
+        }
+
+        public void AddAutor(Author autor)
+        {
+            _author.Add(autor);
+        }
+
+        public bool AddMultipleAuthors(IEnumerable<Author> authorCollection)
+        {
+            try
+            {
+                AuthorInMemoryRepositor._author.AddRange(authorCollection);
+                return true; 
+            }
+            catch (Exception)
+            {
+                _authorRepositoryLogger.LogWarning("Unable to add multiple authors ");
+
+                return false;
+            };
+        }
     }
 
 }

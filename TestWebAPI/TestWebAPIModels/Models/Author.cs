@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestWebAPIModels.Models
+﻿namespace TestWebAPIModels.Models
 {
     public class Author
     {
@@ -14,8 +8,6 @@ namespace TestWebAPIModels.Models
         public int Age { get; init; }
         public DateTime DateOfBirth { get; init; }
 
-         public string NickName { get; init; }
-
-
+        public string NickName { get; init; }
     }
 }

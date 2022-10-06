@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TestWebAPIModels;
-using TestWebAPIModels.Models;
+﻿using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Interfaces
 {
-    public interface IUserRepository
+    public interface IPersonRepository
     {
-         IEnumerable<Person> GetAllUsers();
+         Task<IEnumerable<Person>> GetAllUsers();
 
-         Person GetById(int id);
+         Task<Person> GetById(int id);
 
-         Person AddUsers(Person user);
-
-
-         Person? UpdateUser(Person user);
+         Task<Person> AddUsers(Person person);
 
 
-         Book? DeletUser(int userId);
+         Task<Person>? UpdateUser(int person);
+
+        Task<Person> DeletePerson(int id);
        
     }
 }
