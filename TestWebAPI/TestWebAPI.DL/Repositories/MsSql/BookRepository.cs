@@ -17,11 +17,7 @@ namespace TestWebAPI.DL.Repositories.MsSql
             _book = book;
             _configuration = configuration;
         }
-        public void AddBook(Book book)
-        {
-            List<Book> books = new List<Book>();
-            books.Add(book);
-        }
+        
         public async Task<IEnumerable<Book>> GetAlBooks()
         {
             var results = new List<Book>();
@@ -62,19 +58,25 @@ namespace TestWebAPI.DL.Repositories.MsSql
             return null;
         }
 
-        public async void RemoveBook(int id)
+        public async Task<Book> RemoveBook(int id)
         {
+            
+            var book = new Book();
             var results = new List<Book>();
+            
+            results.Add(book);
+            var bookToRemove = book.Id == id;
             try
             {
                 await using(var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await conn.OpenAsync();
                     await conn.QueryFirstOrDefaultAsync<Book>("SELECT * FROM Books Id = @Id", new { Id = id });
-                    results.Remove(new Book()
+                    if (book.Id == id)
                     {
-                        Id = id
-                    });
+                        results.Remove(book);
+                    }
+                    
                 }
             }
             catch (Exception e)
@@ -82,23 +84,35 @@ namespace TestWebAPI.DL.Repositories.MsSql
                 _book.LogError($"cannot Delete Book By given Id");
             }
 
+            return null;
+        }
+        
+
+        public async Task<Book> AddBook(Book book)
+        {
+            return book;
         }
 
-        public async void UpdateBook(int id)
+        public async Task<Book> UpdateBook(int id)
         {
-            var results = new List<Book>();
+            //var results = new List<Book>();
             try
             {
                 await using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await conn.OpenAsync();
-                     await conn.QueryFirstOrDefaultAsync<Book>("SELECT * FROM Books WHERE Id = @Id", new { Id = id });
+                    await conn.QueryFirstOrDefaultAsync<Book>("SELECT * FROM Books WHERE Id = @Id", new { Id = id });
+                    return new Book()
+                    {
+                        Id = id
+                    };
                 }
             }
             catch (Exception e)
             {
                 _book.LogError($"Invalid id {id}");
             }
+            return null;
 
         }
     }

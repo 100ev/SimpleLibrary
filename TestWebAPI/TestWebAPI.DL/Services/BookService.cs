@@ -3,9 +3,7 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using TestWebAPI.DL.Interfaces;
 using TestWebAPI.DL.Service_Interfaces;
-using TestWebAPI.Model.Request;
 using TestWebAPI.Model.Responses;
-using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Services
 {
@@ -23,7 +21,7 @@ namespace TestWebAPI.DL.Services
             _mapper = mapper;
             _bookLoger = bookLoger;
         }
-        public async Task<AddBookResponse> AddBook(AddBookRequest bookRequest)
+        public async Task<AddBookResponse> AddBook(Model.Request.AddBookRequest bookRequest)
         {
             try
             {
@@ -35,7 +33,7 @@ namespace TestWebAPI.DL.Services
                     };
 
 
-                var bookMapper = _mapper.Map<Book>(bookRequest);
+                var bookMapper = _mapper.Map<TestWebAPIModels.Models.Book>(bookRequest);
                 _bookRepository.AddBook(bookMapper);
 
 
@@ -54,7 +52,7 @@ namespace TestWebAPI.DL.Services
 
         }
 
-        public async Task<AddBookResponse>? DeletBook(AddBookRequest bookRequest,int id)
+        public async Task<AddBookResponse>? DeletBook(Model.Request.AddBookRequest bookRequest,int id)
         {            
             try
             {
@@ -64,7 +62,7 @@ namespace TestWebAPI.DL.Services
                         HttpStatusCode = HttpStatusCode.BadRequest,
                     };
                 
-                var mapBook = _mapper.Map<Book>(bookRequest);
+                var mapBook = _mapper.Map<TestWebAPIModels.Models.Book>(bookRequest);
 
                 _bookRepository.RemoveBook(id);
 
@@ -90,7 +88,7 @@ namespace TestWebAPI.DL.Services
                         HttpStatusCode = HttpStatusCode.NotFound
                     };
                 var result = await _bookRepository.GetAlBooks();
-                var books = _mapper.Map<Book>(result);
+                var books = _mapper.Map<TestWebAPIModels.Models.Book>(result);
                 return new AddBookResponse()
                 {
                     HttpStatusCode = HttpStatusCode.OK
@@ -114,7 +112,7 @@ namespace TestWebAPI.DL.Services
                         HttpStatusCode = HttpStatusCode.BadRequest,
                     };
 
-                var mapBook = _mapper.Map<Book>(id);
+                var mapBook = _mapper.Map<TestWebAPIModels.Models.Book>(id);
 
                await _bookRepository.GetById(id);
 
@@ -130,11 +128,11 @@ namespace TestWebAPI.DL.Services
             return null;
         }
 
-        public async Task<AddBookResponse>? UpdateBook(AddBookRequest book, int id)
+        public async Task<AddBookResponse>? UpdateBook(Model.Request.AddBookRequest book, int id)
         {
             try
             {
-                var newBook = new Book();
+                var newBook = new TestWebAPIModels.Models.Book();
 
                 if (book != null)
                     return new AddBookResponse()
@@ -142,7 +140,7 @@ namespace TestWebAPI.DL.Services
                         HttpStatusCode = HttpStatusCode.BadRequest,
                     };
 
-                var mapBook = _mapper.Map<Book>(newBook);
+                var mapBook = _mapper.Map<TestWebAPIModels.Models.Book>(newBook);
                 _bookRepository.UpdateBook(id);
 
                 return new AddBookResponse()

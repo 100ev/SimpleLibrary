@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TestWebAPI.DL.Service_Interfaces;
+using TestWebAPI.Model.Models.MediatR.Commands;
 using TestWebAPI.Model.Request;
 using TestWebAPI.Model.Responses;
 
@@ -14,15 +16,22 @@ namespace TestWebAPI.Controllers
         private readonly IBookService _bookService;
         private readonly ILogger<BookController> _bookLoger;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-
-        public BookController(IBookService bookRepository, ILogger<BookController> bookLoger, IMapper mapper)
+        public BookController(IBookService bookRepository, ILogger<BookController> bookLoger, IMapper mapper, IMediator mediator)
         {
             _bookService = bookRepository;
             _bookLoger = bookLoger;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost("GetAllBooks")]
+        public async Task<IActionResult> GetAllBooks()
+        {
+            return Ok(await _mediator.Send(new GetAllBooksCommand()));
+        }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("AddBook")]
 
@@ -60,10 +69,11 @@ namespace TestWebAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet(nameof(DeLeteBook))]
-        public IActionResult DeLeteBook(AddBookRequest bookRequest, int id)
+        public async Task<IActionResult> DeLeteBook(AddBookRequest bookRequest, int id)
         {
             if (id <= 0 || bookRequest == null) return BadRequest("Invalid information");
             var result = _bookService.DeletBook(bookRequest, id);
+            var returnDeBook = await _mediator.Send(new DeleteBookCommand(id));
             return Ok(result);
         }
 

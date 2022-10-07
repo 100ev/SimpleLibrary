@@ -115,7 +115,7 @@ namespace BookStore.BL.Services
                     };
                 }
                 var result = await _authorRepository.GetAllAuthors();
-                var books = _mapper.Map<Book>(result);
+                var books = _mapper.Map<TestWebAPIModels.Models.Book>(result);
                 return new AddAuthorResponse()
                 {
                     HttpStatusCode = HttpStatusCode.OK
