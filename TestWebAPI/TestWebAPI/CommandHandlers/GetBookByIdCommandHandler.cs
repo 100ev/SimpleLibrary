@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using System.Net;
+using AutoMapper;
+using MediatR;
 using TestWebAPI.DL.Interfaces;
-using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.Model.Models.MediatR.Commands;
-using TestWebAPI.Model.Request;
 using TestWebAPI.Model.Responses;
 using TestWebAPIModels.Models;
 
@@ -12,13 +12,32 @@ namespace TestWebAPI.CommandHandlers
     {
 
         private readonly IBookRepository _bookRepository;
-        public GetBookByIdCommandHandler(IBookRepository bookService)
+        private readonly IMapper _mapper;
+        private readonly ILogger<GetBookByIdCommandHandler> _logger;
+        public GetBookByIdCommandHandler(IBookRepository bookService, IMapper mapper, ILogger<GetBookByIdCommandHandler> logger)
         {
-            _bookRepository = bookService;
+            _bookRepository = bookService;            
+            _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task<Book> Handle(GetBookByIdCommand request, CancellationToken cancellationToken)
         {
+            try
+            {
+                if (request.bookId <= 0)
+                    return null;
+
+                var mapBook = _mapper.Map<TestWebAPIModels.Models.Book>(request.bookId);
+
+                await _bookRepository.GetById(request.bookId);
+
+            }
+            catch (Exception)
+            {
+                _logger.LogError("There is no book with the represented Id");
+            }
+
             return await _bookRepository.GetById(request.bookId);
         }
     }

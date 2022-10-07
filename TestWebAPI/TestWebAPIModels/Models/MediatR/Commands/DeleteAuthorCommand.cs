@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using TestWebAPIModel.Responses;
-using TestWebAPIModels.Models;
 
 namespace TestWebAPI.Model.Models.MediatR.Commands
 {
-    public  record UpdateAuthorCommand(int id) : IRequest<AddAuthorResponse>
+    public record DeleteAuthorCommand : IRequest<AddAuthorResponse>
     {
-
     }
 }

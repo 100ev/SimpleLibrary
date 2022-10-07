@@ -9,8 +9,7 @@ using TestWebAPIModels.Models;
 
 namespace TestWebAPI.Model.Models.MediatR.Commands
 {
-    public  record UpdateAuthorCommand(int id) : IRequest<AddAuthorResponse>
+    public record GetAllAuthorsCommand : IRequest<IEnumerable<AddAuthorResponse>>
     {
-
     }
 }

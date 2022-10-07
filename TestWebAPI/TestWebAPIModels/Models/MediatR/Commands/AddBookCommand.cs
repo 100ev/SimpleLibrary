@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using TestWebAPI.Model.Request;
 using TestWebAPI.Model.Responses;
-using TestWebAPIModel.Responses;
-using TestWebAPIModels.Models;
-using Book = TestWebAPIModels.Models.Book;
 
 namespace TestWebAPI.Model.Models.MediatR.Commands
 {

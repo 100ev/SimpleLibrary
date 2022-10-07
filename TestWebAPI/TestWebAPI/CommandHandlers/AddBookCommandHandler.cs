@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using AutoMapper;
 using MediatR;
 using TestWebAPI.DL.Interfaces;
-using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.Model.Models.MediatR.Commands;
 using TestWebAPI.Model.Responses;
 using TestWebAPIModels.Models;

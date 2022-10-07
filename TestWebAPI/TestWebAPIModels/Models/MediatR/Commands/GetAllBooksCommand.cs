@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
-using TestWebAPI.Model.Request;
-using TestWebAPIModels.Models;
+﻿using MediatR;
 using Book = TestWebAPIModels.Models.Book;
 
 namespace TestWebAPI.Model.Models.MediatR.Commands

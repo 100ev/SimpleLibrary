@@ -25,7 +25,19 @@ namespace TestWebAPI.CommandHandlers
 
         public async Task<IEnumerable<Book>> Handle(GetAllBooksCommand request, CancellationToken cancellationToken)
         {
-            return null;
+            try
+            {
+                if (_bookRepository == null)
+                    return null;
+                var result = await _bookRepository.GetAlBooks();
+                var books = _mapper.Map<TestWebAPIModels.Models.Book>(result);
+               
+            }
+            catch (Exception)
+            {
+                _logger.LogError("book collection does not exit");
+            }
+            return await _bookRepository.GetAlBooks();
         }
     }
 }

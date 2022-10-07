@@ -2,9 +2,7 @@
 using AutoMapper;
 using MediatR;
 using TestWebAPI.DL.Interfaces;
-using TestWebAPI.DL.Service_Interfaces;
 using TestWebAPI.Model.Models.MediatR.Commands;
-using TestWebAPI.Model.Request;
 using TestWebAPI.Model.Responses;
 
 namespace TestWebAPI.CommandHandlers

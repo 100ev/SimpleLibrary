@@ -3,9 +3,7 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using TestWebAPI.DL.Interfaces;
 using TestWebAPI.DL.Service_Interfaces;
-using TestWebAPI.Model.Request;
 using TestWebAPI.Model.Responses;
-using TestWebAPIModels.Models;
 
 namespace TestWebAPI.DL.Services
 {

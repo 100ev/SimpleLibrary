@@ -9,7 +9,7 @@ using TestWebAPIModels.Models;
 
 namespace TestWebAPI.Model.Models.MediatR.Commands
 {
-    public record GetAuthorByNameCommand(string name) : IRequest<Author>
+    public record GetAuthorByNameCommand(string name) : IRequest<AddAuthorResponse>
     {
 
     }
